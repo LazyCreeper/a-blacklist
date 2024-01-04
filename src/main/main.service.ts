@@ -25,7 +25,6 @@ export class MainService {
   indexAll() {
     throw new HttpException(
       {
-        code: HttpStatus.METHOD_NOT_ALLOWED,
         msg: 'fuck',
       },
       HttpStatus.METHOD_NOT_ALLOWED,
