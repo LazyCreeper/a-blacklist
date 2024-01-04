@@ -3,13 +3,15 @@
 </p>
 <p align="center">A Blacklist</p>
 <p align="center">
-  <img src="https://img.shields.io/github/license/LazyCreeper/MiraiUI" alt="Package License" />
+  <img src="https://img.shields.io/github/license/LazyCreeper/a-blacklist" alt="Package License" />
 </p>
 
 ## 介绍
 
 一个拿来记仇用的小本本 - 后端程序
 （叠个甲：我不懂得编程，代码写得很烂，请各位大佬嘴下留情。Issues大舞台，有能力你就来。）
+
+文档：正在写
 
 ## 安装依赖
 
