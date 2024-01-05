@@ -2,10 +2,12 @@ import { Injectable } from '@nestjs/common';
 import config from 'src/Service/config';
 import type { NyaUserInfo } from './oauth.interface';
 import axios from 'axios';
+import { isSafeData } from 'src/Utils';
 
 @Injectable()
 export class OauthService {
-  async nya(session: Record<string, any>, code: string) {
+  async nya(body: { code: string }) {
+    await isSafeData(body);
     try {
       const { data: 令牌 } = await axios.post(
         'https://api.imlazy.ink/v1/oauth2/token',
@@ -14,7 +16,7 @@ export class OauthService {
           client_secret: config.oauth2_config.client_secret,
           redirect_uri: config.oauth2_config.redirect_uri,
           grant_type: 'authorization_code',
-          code: code,
+          code: body.code,
         },
         {
           headers: {
@@ -25,13 +27,28 @@ export class OauthService {
       if (!令牌.access_token) {
         throw new Error(令牌);
       }
+      return {
+        code: 200,
+        msg: '获取成功',
+        data: {
+          token: 令牌.access_token,
+        },
+        time: new Date().getTime(),
+      };
+    } catch (err) {
+      throw new Error(err.response.data.msg || err.message);
+    }
+  }
 
+  async user(session: Record<string, any>, body: { access_token: string }) {
+    await isSafeData(body);
+    try {
       const { data: resData } = await axios.get(
         'https://api.imlazy.ink/v1/oauth2/user',
         {
           headers: {
             // 'Content-Type': 'application/x-www-form-urlencoded',
-            Authorization: `Bearer ${令牌.access_token}`,
+            Authorization: `Bearer ${body.access_token}`,
           },
         },
       );
@@ -44,6 +61,7 @@ export class OauthService {
         code: 200,
         msg: '登录成功',
         data: userInfo,
+        time: new Date().getTime(),
       };
     } catch (err) {
       throw new Error(err.response.data.msg || err.message);
