@@ -1,5 +1,14 @@
-import { Controller, Get, HttpCode, Post, All } from '@nestjs/common';
+import {
+  Controller,
+  Get,
+  HttpCode,
+  Post,
+  Query,
+  All,
+  UseGuards,
+} from '@nestjs/common';
 import { MainService as MainServices } from './main.service';
+import { isAdmin } from 'src/Guard/permission';
 
 @Controller()
 export class MainController {
@@ -7,12 +16,19 @@ export class MainController {
 
   @Get()
   @HttpCode(233)
-  get() {
-    return this.MainService.indexGet();
+  async list(
+    @Query('page') page = 1,
+    @Query('pageSize') pageSize = 10,
+    @Query('sortBy') sortBy: string,
+    @Query('sortDesc') sortDesc: string,
+    @Query('search') search: string,
+  ) {
+    return this.MainService.list(page, pageSize, sortBy, sortDesc, search);
   }
 
   @Post()
-  @HttpCode(500)
+  @HttpCode(200)
+  @UseGuards(isAdmin)
   post() {
     return this.MainService.indexPost();
   }
