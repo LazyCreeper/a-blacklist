@@ -10,6 +10,11 @@ const AppConfig = {
     password: '',
     database: '',
   },
+  oauth2_config: {
+    client_id: '',
+    client_secret: '',
+    redirect_uri: '',
+  },
 };
 
 export default (() => {

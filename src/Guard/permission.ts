@@ -1,6 +1,6 @@
 import { Injectable, CanActivate, ExecutionContext } from '@nestjs/common';
 import { AuthGuard } from '@nestjs/passport';
-import { db } from '../Service/mysql';
+// import { db } from '../Service/mysql';
 
 @Injectable()
 export class CheckAuthGuard
@@ -30,11 +30,9 @@ export class isAdmin extends CheckAuthGuard implements CanActivate {
     if (!(await isAuthenticated)) {
       return false;
     }
-    const r = await db.query('select * from user where id=?', [session.id]);
-    if (r[0].role === 'admin') {
+    if (session.role === 'admin') {
       return true;
     }
-
     return false;
   }
 }

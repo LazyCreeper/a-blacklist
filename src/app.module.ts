@@ -9,6 +9,7 @@ import { APP_GUARD } from '@nestjs/core';
 import { RateLimiterModule, RateLimiterGuard } from 'nestjs-rate-limiter';
 import { dbConnect } from './Middleware/protocol';
 import { MainModule } from './main/main.module';
+import { OauthModule } from './oauth/oauth.module';
 
 @Module({
   imports: [
@@ -43,6 +44,7 @@ import { MainModule } from './main/main.module';
       },
     }),
     MainModule,
+    OauthModule,
   ],
   providers: [
     {
