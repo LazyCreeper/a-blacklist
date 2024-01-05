@@ -8,6 +8,7 @@ import {
   All,
   Body,
   UseGuards,
+  Delete,
 } from '@nestjs/common';
 import { MainService as MainServices } from './main.service';
 import { isAdmin } from 'src/Guard/permission';
@@ -41,6 +42,13 @@ export class MainController {
   @UseGuards(isAdmin)
   update(@Body() body: Blacklist) {
     return this.MainService.update(body);
+  }
+
+  @Delete()
+  @HttpCode(200)
+  @UseGuards(isAdmin)
+  delete(@Body() body: Blacklist) {
+    return this.MainService.delete(body);
   }
 
   @All()

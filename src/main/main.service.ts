@@ -97,19 +97,10 @@ export class MainService {
 
   async add(body: Blacklist) {
     await isSafeData(body);
-    let i;
-    try {
-      i = await db.query(
-        `insert into list (qq,bilibili,reason,addTime) values (?,?,?,?)`,
-        [body.qq, body.bilibili, body.reason, new Date()],
-      );
-    } catch (e) {
-      return {
-        code: 500,
-        msg: e.response.data.msg,
-        time: new Date().getTime(),
-      };
-    }
+    const i = await db.query(
+      `insert into list (qq,bilibili,reason,addTime) values (?,?,?,?)`,
+      [body.qq, body.bilibili, body.reason, new Date()],
+    );
 
     if (i.affectedRows === 1) {
       return {
@@ -133,6 +124,18 @@ export class MainService {
     return {
       code: 200,
       msg: '更新成功',
+      time: new Date().getTime(),
+    };
+  }
+
+  async delete(body: Blacklist) {
+    await isSafeData(body);
+    const d = await db.query(`delete from list where id="${body.id}"`);
+    if (d.affectedRows !== 1) throw new Error('恭喜，你数据库没了');
+
+    return {
+      code: 200,
+      msg: '删除成功',
       time: new Date().getTime(),
     };
   }
