@@ -5,10 +5,12 @@ import {
   Post,
   Query,
   All,
+  Body,
   UseGuards,
 } from '@nestjs/common';
 import { MainService as MainServices } from './main.service';
 import { isAdmin } from 'src/Guard/permission';
+import { Blacklist } from './main.interface';
 
 @Controller()
 export class MainController {
@@ -29,8 +31,8 @@ export class MainController {
   @Post()
   @HttpCode(200)
   @UseGuards(isAdmin)
-  post() {
-    return this.MainService.indexPost();
+  add(@Body() body: Blacklist) {
+    return this.MainService.add(body);
   }
 
   @All()

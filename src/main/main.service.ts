@@ -1,6 +1,7 @@
 import { Injectable, HttpException, HttpStatus } from '@nestjs/common';
 import { db } from 'src/Service/mysql';
 import { SortByList, type Blacklist } from './main.interface';
+import { isSafeData } from 'src/Utils';
 
 @Injectable()
 export class MainService {
@@ -83,7 +84,6 @@ export class MainService {
     const r: Blacklist[] = await db.query(query, values);
 
     return {
-      status: true,
       code: 200,
       msg: '获取成功',
       time: new Date().getTime(),
@@ -95,11 +95,32 @@ export class MainService {
     };
   }
 
-  indexPost() {
-    return {
-      code: 500,
-      msg: '嗯哼？',
-    };
+  async add(body: Blacklist) {
+    await isSafeData(body);
+    let i;
+    try {
+      i = await db.query(
+        `insert into list (qq,bilibili,reason,addTime) values (?,?,?,?)`,
+        [body.qq, body.bilibili, body.reason, new Date()],
+      );
+    } catch (e) {
+      return {
+        status: false,
+        code: 500,
+        msg: e.response.data.msg,
+        time: new Date().getTime(),
+      };
+    }
+
+    if (i.affectedRows === 1) {
+      return {
+        code: 200,
+        msg: '添加成功',
+        time: new Date().getTime(),
+      };
+    } else {
+      throw new Error('添加失败，可能数据库炸了');
+    }
   }
 
   indexAll() {

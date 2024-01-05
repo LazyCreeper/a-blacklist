@@ -31,3 +31,19 @@ export const randomString = (length: number) => {
 export const objIsEmpty = (obj: object) => {
   return Object.values(obj).every((value) => value == null || value === '');
 };
+
+export async function isSafeData(body: { [propName: string]: any }) {
+  // const strReg = /^(?!.*[`"']).*$/;
+  const strReg = /^[^`"'\x5C]*$/;
+  for (const key in body) {
+    if (Object.hasOwnProperty.call(body, key)) {
+      const value = body[key] as string;
+      if (!strReg.test(value)) {
+        throw new Error('数据不合法！');
+      }
+      if (typeof value === 'object') {
+        this.isSafeData(value);
+      }
+    }
+  }
+}
