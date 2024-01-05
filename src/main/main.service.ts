@@ -105,7 +105,6 @@ export class MainService {
       );
     } catch (e) {
       return {
-        status: false,
         code: 500,
         msg: e.response.data.msg,
         time: new Date().getTime(),
@@ -121,6 +120,21 @@ export class MainService {
     } else {
       throw new Error('添加失败，可能数据库炸了');
     }
+  }
+
+  async update(body: Blacklist) {
+    await isSafeData(body);
+    const r = await db.query(
+      `update list set qq=?, bilibili=?, reason=? where id=?`,
+      [body.qq, body.bilibili, body.reason, body.id],
+    );
+    if (r.affectedRows !== 1) throw new Error('恭喜，你数据库没了');
+
+    return {
+      code: 200,
+      msg: '更新成功',
+      time: new Date().getTime(),
+    };
   }
 
   indexAll() {

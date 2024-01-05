@@ -3,6 +3,7 @@ import {
   Get,
   HttpCode,
   Post,
+  Put,
   Query,
   All,
   Body,
@@ -33,6 +34,13 @@ export class MainController {
   @UseGuards(isAdmin)
   add(@Body() body: Blacklist) {
     return this.MainService.add(body);
+  }
+
+  @Put()
+  @HttpCode(200)
+  @UseGuards(isAdmin)
+  update(@Body() body: Blacklist) {
+    return this.MainService.update(body);
   }
 
   @All()
