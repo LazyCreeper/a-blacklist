@@ -38,6 +38,9 @@ dependencies:
   bcryptjs:
     specifier: ^2.4.3
     version: 2.4.3
+  express-session:
+    specifier: ^1.17.3
+    version: 1.17.3
   fs-extra:
     specifier: ^11.2.0
     version: 11.2.0
