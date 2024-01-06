@@ -19,7 +19,7 @@ export class MainController {
   constructor(private readonly MainService: MainServices) {}
 
   @Get()
-  @HttpCode(233)
+  @HttpCode(200)
   async list(
     @Query('page') page = 1,
     @Query('pageSize') pageSize = 10,
