@@ -42,7 +42,7 @@ export async function isSafeData(body: { [propName: string]: any }) {
         throw new Error('数据不合法！');
       }
       if (typeof value === 'object') {
-        this.isSafeData(value);
+        isSafeData(value);
       }
     }
   }
