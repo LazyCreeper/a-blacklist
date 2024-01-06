@@ -98,8 +98,8 @@ export class MainService {
   async add(body: Blacklist) {
     await isSafeData(body);
     const i = await db.query(
-      `insert into list (qq,bilibili,reason,addTime) values (?,?,?,?)`,
-      [body.qq, body.bilibili, body.reason, new Date()],
+      `insert into list (qq,bilibili,reason,violateTime,updateAt) values (?,?,?,?,?)`,
+      [body.qq, body.bilibili, body.reason, body.violateTime, new Date()],
     );
 
     if (i.affectedRows === 1) {
@@ -116,8 +116,15 @@ export class MainService {
   async update(body: Blacklist) {
     await isSafeData(body);
     const r = await db.query(
-      `update list set qq=?, bilibili=?, reason=? where id=?`,
-      [body.qq, body.bilibili, body.reason, body.id],
+      `update list set qq=?, bilibili=?, reason=?, violateTime=?, updateAt=? where id=?`,
+      [
+        body.qq,
+        body.bilibili,
+        body.reason,
+        body.violateTime,
+        new Date(),
+        body.id,
+      ],
     );
     if (r.affectedRows !== 1) throw new Error('恭喜，你数据库没了');
 

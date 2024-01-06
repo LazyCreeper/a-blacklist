@@ -3,7 +3,15 @@ export interface Blacklist {
   qq: string;
   bilibili: string;
   reason: string;
-  addTime: string;
+  violateTime: string;
+  updateAt: string;
 }
 
-export const SortByList = ['id', 'qq', 'bilibili', 'reason', 'addTime'];
+export const SortByList = [
+  'id',
+  'qq',
+  'bilibili',
+  'reason',
+  'violateTime',
+  'updateAt',
+];
