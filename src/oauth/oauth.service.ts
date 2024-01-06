@@ -67,4 +67,20 @@ export class OauthService {
       throw new Error(err.response.data.msg || err.message);
     }
   }
+
+  returnNyancyUrl() {
+    const url = `https://api.imlazy.ink/#/oauth2/authorize?client_id=${
+      config.oauth2_config.client_id
+    }&response_type=code&redirect_uri=${encodeURIComponent(
+      config.oauth2_config.redirect_uri,
+    )}`;
+
+    return {
+      code: 200,
+      msg: '获取成功',
+      data: {
+        url,
+      },
+    };
+  }
 }

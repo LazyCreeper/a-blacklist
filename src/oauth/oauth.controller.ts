@@ -1,4 +1,4 @@
-import { Controller, HttpCode, Session, Body, Post } from '@nestjs/common';
+import { Controller, HttpCode, Session, Body, Post, Get } from '@nestjs/common';
 import { OauthService as OauthServices } from './oauth.service';
 
 @Controller('oauth2')
@@ -14,6 +14,12 @@ export class OauthController {
     },
   ) {
     return this.OauthService.nya(body);
+  }
+
+  @Get('nyancy')
+  @HttpCode(200)
+  async returnNyancyUrl() {
+    return this.OauthService.returnNyancyUrl();
   }
 
   @Post('nyancy/user')
