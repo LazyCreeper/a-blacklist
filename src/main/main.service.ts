@@ -129,6 +129,7 @@ export class MainService {
   }
 
   async delete(body: Blacklist) {
+    if (!body.id) throw new Error('缺少必要参数');
     await isSafeData(body);
     const d = await db.query(`delete from list where id="${body.id}"`);
     if (d.affectedRows !== 1) throw new Error('恭喜，你数据库没了');
