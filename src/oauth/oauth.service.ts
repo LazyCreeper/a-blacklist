@@ -3,9 +3,14 @@ import config from 'src/Service/config';
 import type { NyaUserInfo } from './oauth.interface';
 import axios from 'axios';
 import { isSafeData } from 'src/Utils';
+import { db } from 'src/Service/mysql';
+import { UserService as UserServices } from 'src/user/user.service';
+import { logger } from 'src/Utils/log';
 
 @Injectable()
 export class OauthService {
+  constructor(private readonly UserService: UserServices) {}
+
   async nya(body: { code: string }) {
     await isSafeData(body);
     try {
@@ -53,17 +58,42 @@ export class OauthService {
         },
       );
       const userInfo: NyaUserInfo = resData.data;
-      session['login'] = true;
-      session['uuid'] = userInfo.uuid;
-      // 偷懒了，用户不存数据库了，直接拿现成的
-      session['role'] = userInfo.role;
-      return {
-        code: 200,
-        msg: '登录成功',
-        data: userInfo,
-        time: new Date().getTime(),
-      };
+
+      // 判断该用户是否已注册
+      const u = await this.UserService.info_(userInfo.email);
+      if (u.data) {
+        session['login'] = true;
+        session['role'] = u.data.role;
+        return {
+          code: 200,
+          msg: '登录成功',
+          data: u.data,
+          time: new Date().getTime(),
+        };
+      } else {
+        // 写入用户信息到数据库
+        await db.query(
+          'insert into users (name,email,role,status,regTime) values (?,?,?,?,?)',
+          [
+            userInfo.username,
+            userInfo.email,
+            userInfo.role,
+            userInfo.status,
+            new Date(),
+          ],
+        );
+        session['login'] = true;
+        session['role'] = userInfo.role;
+        return {
+          code: 200,
+          msg: '登录成功',
+          // 这里返回的是 OAuth2 平台的用户信息，懒得做处理了
+          data: userInfo,
+          time: new Date().getTime(),
+        };
+      }
     } catch (err) {
+      logger.error(err);
       throw new Error(err.response.data.msg || err.message);
     }
   }
