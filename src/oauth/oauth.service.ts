@@ -5,7 +5,6 @@ import axios from 'axios';
 import { isSafeData } from 'src/Utils';
 import { db } from 'src/Service/mysql';
 import { UserService as UserServices } from 'src/user/user.service';
-import { logger } from 'src/Utils/log';
 
 @Injectable()
 export class OauthService {
@@ -62,6 +61,7 @@ export class OauthService {
       // 判断该用户是否已注册
       const u = await this.UserService.info_(userInfo.email);
       if (u.data) {
+        if (u.data.status == -1) throw new Error('你已被封禁，无法登录！');
         session['login'] = true;
         session['role'] = u.data.role;
         return {
@@ -93,8 +93,8 @@ export class OauthService {
         };
       }
     } catch (err) {
-      logger.error(err);
-      throw new Error(err.response.data.msg || err.message);
+      // logger.error(err);
+      throw new Error(err.response ? err.response.data.msg : err.message);
     }
   }
 
