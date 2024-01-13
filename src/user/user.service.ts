@@ -105,7 +105,7 @@ export class UserService {
   // 更新指定用户信息
   async update_(body: UserInfo) {
     // 更新用户数据
-    const r = await db.query(`update user set role=?, status=? where id=?`, [
+    const r = await db.query(`update users set role=?, status=? where id=?`, [
       body.role,
       body.status,
       body.id,
