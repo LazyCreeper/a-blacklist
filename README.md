@@ -13,29 +13,22 @@
 
 文档：正在写
 
-## 安装依赖
+## 使用方法
 
 ```bash
-$ pnpm install
+# 安装依赖
+pnpm install
+
+# 运行一次，生成配置文件
+pnpm run start
 ```
 
-## 运行
-
-```bash
-# development
-$ pnpm run start
-
-# watch mode
-$ pnpm run start:dev
-
-# production mode
-$ pnpm run start:prod
-```
+然后把`ablacklist.sql`导入数据库，修改`config.json`中的配置，再运行一次。
 
 ## 构建
 
 ```bash
-$ pnpm run build
+pnpm run build
 ```
 
 ## License
