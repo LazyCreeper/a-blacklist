@@ -57,7 +57,6 @@ export class OauthService {
         },
       );
       const userInfo: NyaUserInfo = resData.data;
-      console.log(userInfo);
 
       // 判断该用户是否已注册
       const u = await this.UserService.info_(userInfo.email);
@@ -94,17 +93,17 @@ export class OauthService {
         };
       }
     } catch (err) {
-      console.error(err);
-      throw new Error(err.response ? err.response.data.msg : err.message);
+      // console.error(err);
+      throw new Error(err.response?.data.msg || err.message);
     }
   }
 
   returnNyancyUrl() {
-    const url = `https://account.lazy.ink/#/oauth2/authorize?client_id=${
+    const url = `https://account.lazy.ink/oauth2/authorize?client_id=${
       config.oauth2_config.client_id
-    }&response_type=code&redirect_uri=${encodeURIComponent(
-      config.oauth2_config.redirect_uri,
-    )}`;
+    }&response_type=code&state=${String(
+      Math.random(),
+    )}&redirect_uri=${encodeURIComponent(config.oauth2_config.redirect_uri)}`;
 
     return {
       code: 200,
