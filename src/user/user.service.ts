@@ -10,7 +10,7 @@ export class UserService {
       status: true,
       code: 200,
       msg: '获取成功',
-      time: new Date().getTime(),
+      time: Date.now(),
       data: (await this.info_(session.email)).data,
     };
   }
@@ -27,7 +27,7 @@ export class UserService {
     return {
       code: 200,
       msg: '获取成功',
-      time: new Date().getTime(),
+      time: Date.now(),
       data: r,
     };
   }
@@ -47,7 +47,7 @@ export class UserService {
         status: true,
         code: 200,
         msg: '获取成功',
-        time: new Date().getTime(),
+        time: Date.now(),
         data: {
           totalCount: Number(totalCount[0].count),
           totalPages: 1,
@@ -93,7 +93,7 @@ export class UserService {
     return {
       code: 200,
       msg: '获取成功',
-      time: new Date().getTime(),
+      time: Date.now(),
       data: {
         totalCount: Number(totalCount[0].count),
         totalPages: totalPages,
@@ -115,7 +115,7 @@ export class UserService {
       status: true,
       code: 200,
       msg: '更新成功',
-      time: new Date().getTime(),
+      time: Date.now(),
     };
   }
 
@@ -127,7 +127,7 @@ export class UserService {
     return {
       code: 200,
       msg: '删除成功',
-      time: new Date().getTime(),
+      time: Date.now(),
     };
   }
 }

@@ -31,7 +31,7 @@ export class MainService {
       return {
         code: 200,
         msg: '获取成功',
-        time: new Date().getTime(),
+        time: Date.now(),
         data: {
           totalCount: Number(totalCount[0].count),
           totalPages: 1,
@@ -86,7 +86,7 @@ export class MainService {
     return {
       code: 200,
       msg: '获取成功',
-      time: new Date().getTime(),
+      time: Date.now(),
       data: {
         totalCount: Number(totalCount[0].count),
         totalPages: totalPages,
@@ -106,7 +106,7 @@ export class MainService {
       return {
         code: 200,
         msg: '添加成功',
-        time: new Date().getTime(),
+        time: Date.now(),
       };
     } else {
       throw new Error('添加失败，可能数据库炸了');
@@ -131,7 +131,7 @@ export class MainService {
     return {
       code: 200,
       msg: '更新成功',
-      time: new Date().getTime(),
+      time: Date.now(),
     };
   }
 
@@ -144,7 +144,7 @@ export class MainService {
     return {
       code: 200,
       msg: '删除成功',
-      time: new Date().getTime(),
+      time: Date.now(),
     };
   }
 
