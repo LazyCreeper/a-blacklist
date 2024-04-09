@@ -24,7 +24,7 @@ DROP TABLE IF EXISTS `list`;
 CREATE TABLE `list`  (
   `id` int NOT NULL AUTO_INCREMENT,
   `qq` text CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL,
-  `bilibili` text CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL,
+  `email` text CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL,
   `reason` text CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL,
   `violateTime` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `updateAt` timestamp NOT NULL DEFAULT '2024-01-01 01:00:00',

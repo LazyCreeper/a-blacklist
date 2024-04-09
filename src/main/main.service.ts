@@ -63,7 +63,7 @@ export class MainService {
     // 构建搜索条件
     // 注意：如果使用搜索，那么后端返回的totalCount则还是总数，并不是查询到的总数，请前端自行统计！
     if (search) {
-      query += ` WHERE id LIKE ? OR qq LIKE ? OR bilibili LIKE ? OR reason LIKE ?`;
+      query += ` WHERE id LIKE ? OR qq LIKE ? OR email LIKE ? OR reason LIKE ?`;
     }
 
     // 构建排序条件
@@ -98,8 +98,8 @@ export class MainService {
   async add(body: Blacklist) {
     await isSafeData(body);
     const i = await db.query(
-      `insert into list (qq,bilibili,reason,violateTime,updateAt) values (?,?,?,?,?)`,
-      [body.qq, body.bilibili, body.reason, body.violateTime, new Date()],
+      `insert into list (qq,email,reason,violateTime,updateAt) values (?,?,?,?,?)`,
+      [body.qq, body.email, body.reason, body.violateTime, new Date()],
     );
 
     if (i.affectedRows === 1) {
@@ -116,15 +116,8 @@ export class MainService {
   async update(body: Blacklist) {
     await isSafeData(body);
     const r = await db.query(
-      `update list set qq=?, bilibili=?, reason=?, violateTime=?, updateAt=? where id=?`,
-      [
-        body.qq,
-        body.bilibili,
-        body.reason,
-        body.violateTime,
-        new Date(),
-        body.id,
-      ],
+      `update list set qq=?, email=?, reason=?, violateTime=?, updateAt=? where id=?`,
+      [body.qq, body.email, body.reason, body.violateTime, new Date(), body.id],
     );
     if (r.affectedRows !== 1) throw new Error('恭喜，你数据库没了');
 

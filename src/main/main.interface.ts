@@ -1,7 +1,7 @@
 export interface Blacklist {
   id: number;
   qq: string;
-  bilibili: string;
+  email: string;
   reason: string;
   violateTime: string;
   updateAt: string;
@@ -10,7 +10,7 @@ export interface Blacklist {
 export const SortByList = [
   'id',
   'qq',
-  'bilibili',
+  'email',
   'reason',
   'violateTime',
   'updateAt',
